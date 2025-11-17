@@ -1,0 +1,13 @@
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+backend/bin/
+backend/obj/
+backend/*.user
+backend/*.suo
+backend/*.vspscc
+backend/*.vssscc
+backend/*.pdb
+backend/*.log
+backend/*.vs
+backend/appsettings.Development.json
