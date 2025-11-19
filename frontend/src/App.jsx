@@ -20,7 +20,7 @@ function App() {
         v7_relativeSplatPath: true,
       }} >
 
-    <Header/>
+    <Header authenticationStatus={isAuthenticated}/>
     <Routes> 
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />

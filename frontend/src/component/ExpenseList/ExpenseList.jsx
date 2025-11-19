@@ -3,8 +3,13 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
-function ExpenseList({list}) {
+function ExpenseList({list, openEdit}) {
 
+  function deleteExpense() {
+
+
+  }
+;
     
 
 return (
@@ -18,6 +23,8 @@ return (
           <th>Category</th>
           <th>Date</th>
           <th>Type</th>
+          <th> Delete </th> 
+          <th> Edit </th>
         </tr>
       </thead>
 
@@ -31,9 +38,11 @@ return (
               {new Date(item.date).toLocaleDateString("en-EN")}
             </td>
             <td>{item.type}</td>
+            <td> <button onClick={deleteExpense}> Delete </button> </td> 
+            <td> <button onClick={() => openEdit(item)}> Edit </button> </td>
           </tr>
         ))}
-      </tbody>
+      </tbody> 
     </table>
     </div>
 );
