@@ -6,13 +6,16 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddAuthServices();
 builder.Services.AddExpensesServices();
-
+builder.Services.AddJwtAuth(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();   
    
 
 
 var app = builder.Build();
+
+app.UseAuthentication(); 
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
