@@ -8,7 +8,8 @@ static class JwtAuthExtensions
 {
     public static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration config)
     {
-        var key= Encoding.UTF8.GetBytes(config.["Jwt:Key"]);
+        var keyString = config["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key not configured");
+        var key = Encoding.UTF8.GetBytes(keyString);
 
         services.AddAuthentication(options =>
         {

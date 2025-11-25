@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import api from "../../api";
 
 
 function LoginField () {
@@ -8,11 +9,27 @@ function LoginField () {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+
+
+const handleSubmit= async (e) => {
+  e.preventDefault(); 
+  try {
+      const payload = {
+  user: name,       
+  password: password 
+};
+const response=  await api.post("/auth/login", payload);
+console.log(response.data);
+  }
+  catch (err)
+  {console.error(err)}
+}
+
 return (
     <div>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="name"> Email</label>
+                <label htmlFor="name"> User</label>
                 <input
                 type="text"
                 value={name}
