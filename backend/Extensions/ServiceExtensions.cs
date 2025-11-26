@@ -7,6 +7,6 @@ public static class ServiceExtensions
 
     public static void AddExpensesServices(this IServiceCollection services)
     {
-        
+        services.AddScoped<IExpensesService, ExpensesService>();
     }
 }

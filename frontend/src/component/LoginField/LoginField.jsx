@@ -8,6 +8,7 @@ function LoginField () {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate= useNavigate();
 
 
 
@@ -20,6 +21,8 @@ const handleSubmit= async (e) => {
 };
 const response=  await api.post("/auth/login", payload);
 console.log(response.data);
+localStorage.setItem("jwt", response.data.token);
+navigate("/dashboard");
   }
   catch (err)
   {console.error(err)}

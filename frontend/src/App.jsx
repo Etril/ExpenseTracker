@@ -11,7 +11,9 @@ import Erreur from './pages/Erreur/Erreur.jsx';
 import './App.css'
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // A changer to false une fois le auth en place // 
+
+const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("jwt"));
+
 
   return (
     <Router 
@@ -20,12 +22,12 @@ function App() {
         v7_relativeSplatPath: true,
       }} >
 
-    <Header authenticationStatus={isAuthenticated}/>
+    <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>
     <Routes> 
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={
-        <ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard /></ProtectedRoute>} />
+        <ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="*" element={<Erreur />} />
       </Routes>
       <Footer />
