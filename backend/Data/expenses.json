@@ -1,20 +1,8 @@
 {
-
-    
-
-  "total": 2480.75,
-  "trend": true,
-
-  "widgets": {
-    "topCategory": "Groceries",
-    "biggestExpenseCategory": "Rent",
-    "lowestCategory": "Entertainment"
-  },
-
   "expenses": [
     {
       "title": "January Rent",
-      "amount": 1200,
+      "amount": 800,
       "category": "Rent",
       "date": "2025-01-01",
       "type": "fixed"
@@ -22,7 +10,7 @@
     {
       "title": "Groceries - Week 1",
       "amount": 82.5,
-      "category": "Groceries",
+      "category": "Test",
       "date": "2025-01-03",
       "type": "variable"
     },
@@ -35,7 +23,7 @@
     },
     {
       "title": "Internet Bill",
-      "amount": 49.99,
+      "amount": 500,
       "category": "Utilities",
       "date": "2025-01-05",
       "type": "fixed"

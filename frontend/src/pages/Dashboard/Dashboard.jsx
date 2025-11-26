@@ -7,27 +7,46 @@ import ExpenseWidgets from "../../component/ExpenseWidgets/ExpenseWidgets";
 import ModalAdd from "../../component/ModaleAdd/ModaleAdd";
 import ModaleEdit from "../../component/ModaleEdit/ModaleEdit";
 import Modal from 'react-modal';
+import api from "../../api";
 import data from "../../data/data.json";
-
-
-
 
 
 function Dashboard () { 
 
-const total = data.total;
-const trend = data.trend;
+
 const widgetValues= Object.entries(data.widgets);
 const [filters, setFilters] = useState({});
 const [list, setList] = useState(data.expenses);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditOpen, setIsEditOpen] =useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
+const [expenses, setExpenses] = useState ([]);
+const total= data.total;
+const trend= data.trend;
+
+const getExpenses= async () => {
+    try {
+        const response= await api.get("/expenses");
+        setExpenses(response.data);
+    }
+    catch (err) {
+        console.error (err)
+        setError("No expenses")
+    }
+};
+
+
+useEffect(() => {
+    getExpenses()
+
+}, []);
+
+
 
 
 
 const filterData = (newFilter) => {
-    const filtered = data.expenses.filter( (item) => newFilter ? item.category.includes(newFilter) : true );
+    const filtered = expenses.filter( (item) => newFilter ? item.category.includes(newFilter) : true );
     setList(filtered);
 };
 
@@ -66,7 +85,7 @@ return (
                 <button onClick={openModale}> Add Expense </button>
                 </div>
                 <ExpenseRecap total= {total} trend= {trend} />
-                <ExpenseFilter onFilterClick={handleFilterClick} expenses={data.expenses}/>
+                <ExpenseFilter onFilterClick={handleFilterClick} expenses={expenses}/>
                 <ExpenseList list={list} openEdit={openEdit} />
                  
                     {widgetValues.map(([key, value], index) => (

@@ -1,7 +1,4 @@
-public class ExpensesDb
+public class ExpensesDbModel
 {
-    public decimal Total { get; set; }
-    public bool Trend { get; set; }
-    public WidgetsDto Widgets { get; set; } = new();
     public List<ExpensesModel> Expenses { get; set; } = new();
 }
