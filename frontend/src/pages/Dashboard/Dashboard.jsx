@@ -14,13 +14,15 @@ import data from "../../data/data.json";
 function Dashboard () { 
 
 
-const widgetValues= Object.entries(data.widgets);
+
 const [filters, setFilters] = useState({});
 const [list, setList] = useState(data.expenses);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditOpen, setIsEditOpen] =useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
 const [expenses, setExpenses] = useState ([]);
+const [widgets, setWidgets] = useState([]);
+const widgetsArray= Object.entries(widgets);
 const total= data.total;
 const trend= data.trend;
 
@@ -33,13 +35,27 @@ const getExpenses= async () => {
         console.error (err)
         setError("No expenses")
     }
+    
 };
 
 
+const getWidgets = async () => {
+    try {
+        const response = await api.get("/expenses/widgets");
+        setWidgets(response.data)
+    }
+    catch (err) {
+        console.error (err)
+        setError("No widgets")
+    }
+    }
+
 useEffect(() => {
     getExpenses()
+    getWidgets()
 
 }, []);
+
 
 
 
@@ -88,7 +104,7 @@ return (
                 <ExpenseFilter onFilterClick={handleFilterClick} expenses={expenses}/>
                 <ExpenseList list={list} openEdit={openEdit} />
                  
-                    {widgetValues.map(([key, value], index) => (
+                    {widgetsArray.map(([key, value], index) => (
                         <div key={index}> 
                         <ExpenseWidgets title={key} value={value} />
                             </div>

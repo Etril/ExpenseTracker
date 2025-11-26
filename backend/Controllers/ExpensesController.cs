@@ -24,8 +24,6 @@ public class ExpensesController : ControllerBase
         return Ok(result);
     }
 
-
-
     [Authorize]
     [HttpGet("widgets")]
     
