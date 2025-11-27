@@ -4,4 +4,7 @@ public interface IExpensesService
 {
     Task<IEnumerable<ExpensesResponseDto>> GetAllExpensesAsync();
     Task<WidgetsDto> GetWidgetsAsync();
+    
+    Task<TrendsDto> GetTrendsAsync();
+    
 }

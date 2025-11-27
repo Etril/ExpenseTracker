@@ -69,6 +69,37 @@ var expenses = db?.Expenses ?? new List<ExpensesModel>();
     };
     }
 
+    public async Task<TrendsDto> GetTrendsAsync()
+    {
+        var json= await File.ReadAllTextAsync(_expensesFilePath);
+        var db= JsonSerializer.Deserialize<ExpensesDbModel>(
+    json,
+    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        );
+
+        var expenses= db?.Expenses ?? new List<ExpensesModel>();
+
+        if (expenses == null ) return new TrendsDto
+        {
+            Trends= 0,
+
+            Total = 0
+        };
+
+        decimal TotalAmount= ComputeTotalAmount(expenses);
+        decimal CurrentTrends= ComputeTrends(expenses);
+
+        return new TrendsDto
+        {
+            Trends= CurrentTrends,
+
+            Total= TotalAmount
+        };
+
+    }
+
+
+
     private string ComputeTopCategory(IEnumerable<ExpensesModel> expenses) {
         return expenses
         .GroupBy(e => e.Category)
@@ -87,6 +118,22 @@ var expenses = db?.Expenses ?? new List<ExpensesModel>();
           return expenses
             .OrderByDescending(e => e.Amount)
             .FirstOrDefault()?.Category ?? "N/A";
+    }
+
+    private decimal ComputeTrends(IEnumerable<ExpensesModel> expenses)
+    {
+        var lastFive= expenses
+        .OrderByDescending(e => e.Date)
+        .Take(5);
+
+        return lastFive.Any()
+        ? lastFive.Average(e => e.Amount)
+        : 0;
+    }
+
+    private decimal ComputeTotalAmount(IEnumerable<ExpensesModel> expenses)
+    {
+        return expenses.Sum(e => e.Amount);
     }
 
 

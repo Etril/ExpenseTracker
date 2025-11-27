@@ -32,6 +32,15 @@ public class ExpensesController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpGet("trends")]
+
+    public async Task <IActionResult> GetTrends()
+    {
+        var result= await _expensesService.GetTrendsAsync();
+        return Ok(result);
+    }
+
 
 
 
