@@ -41,6 +41,13 @@ public class ExpensesController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpPost]
+    public async Task <IActionResult> PostExpense([FromBody] ExpenseRequestDto dto)
+    {
+        var result= await _expensesService.PostExpenseAsync(dto);
+        return Ok(result);
+    }
 
 
 

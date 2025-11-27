@@ -6,5 +6,7 @@ public interface IExpensesService
     Task<WidgetsDto> GetWidgetsAsync();
     
     Task<TrendsDto> GetTrendsAsync();
+
+    Task<ExpensesRequestResponseDto> PostExpenseAsync (ExpenseRequestDto dto);
     
 }

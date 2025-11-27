@@ -98,6 +98,58 @@ var expenses = db?.Expenses ?? new List<ExpensesModel>();
 
     }
 
+    public async Task<ExpensesRequestResponseDto> PostExpenseAsync(ExpenseRequestDto dto) {
+        try {
+            var json = await File.ReadAllTextAsync(_expensesFilePath);
+
+        var db = JsonSerializer.Deserialize<ExpensesDbModel>(
+            json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        );
+
+        var expenses = db?.Expenses ?? new List<ExpensesModel>();
+        
+
+        var newExpense= new ExpensesModel {
+            Id= expenses.Any() ? expenses.Max(e => e.Id) + 1 : 1,
+            Title= dto.Title!,
+            Amount= dto.Amount,
+            Category= dto.Category,
+            Date= dto.Date,
+            Type= dto.Type!
+        };
+
+        expenses.Add(newExpense);
+
+        var updatedDb = new ExpensesDbModel
+        {
+            Expenses= expenses
+        };
+        
+        var updatedJson = JsonSerializer.Serialize(updatedDb, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        await File.WriteAllTextAsync(_expensesFilePath, updatedJson);
+
+        return new ExpensesRequestResponseDto
+        {
+            Success= true, 
+            Message="Expense successfully created"
+        };
+        }
+        catch (Exception ex)
+        {
+            return new ExpensesRequestResponseDto
+            {
+                Success=false, 
+                Message= $"Error: {ex.Message}"
+            };
+        }
+
+    }
+
 
 
     private string ComputeTopCategory(IEnumerable<ExpensesModel> expenses) {
