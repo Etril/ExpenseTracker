@@ -38,7 +38,7 @@ return (
               {new Date(item.date).toLocaleDateString("en-EN")}
             </td>
             <td>{item.type}</td>
-            <td> <button onClick={deleteExpense}> Delete </button> </td> 
+            <td> <button onClick={() => deleteExpense(item.id)}> Delete </button> </td> 
             <td> <button onClick={() => openEdit(item)}> Edit </button> </td>
           </tr>
         ))}
