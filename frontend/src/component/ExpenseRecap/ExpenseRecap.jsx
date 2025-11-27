@@ -10,11 +10,12 @@ function ExpenseRecap({total, trend}) {
 return (
     <section> 
         <div> 
-            <h2> Votre solde : </h2>
+            <h2> Total des dépenses </h2>
             <p> {total}€ </p> 
         </div>
         <div>
-            {trend ? <p> Keep going </p> : <p> Save up </p>}
+            <h2> Tendance moyenne </h2>
+            <p> {trend}€ </p>
         </div>
     </section>
 );

@@ -22,9 +22,9 @@ const [isEditOpen, setIsEditOpen] =useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
 const [expenses, setExpenses] = useState ([]);
 const [widgets, setWidgets] = useState([]);
+const [trends, setTrends] = useState([]);
 const widgetsArray= Object.entries(widgets);
-const total= data.total;
-const trend= data.trend;
+
 
 const getExpenses= async () => {
     try {
@@ -50,11 +50,25 @@ const getWidgets = async () => {
     }
     }
 
+const getTrends= async() => {
+    try {
+        const response= await api.get("/expenses/trends");
+        setTrends(response.data)
+    }
+    catch (err) {
+        console.error(err)
+        setError("No trends")
+    }
+}
+
 useEffect(() => {
     getExpenses()
     getWidgets()
+    getTrends()
 
 }, []);
+
+
 
 
 
@@ -100,7 +114,7 @@ return (
                 <div>
                 <button onClick={openModale}> Add Expense </button>
                 </div>
-                <ExpenseRecap total= {total} trend= {trend} />
+                <ExpenseRecap total= {trends.total} trend= {trends.trends} />
                 <ExpenseFilter onFilterClick={handleFilterClick} expenses={expenses}/>
                 <ExpenseList list={list} openEdit={openEdit} />
                  
