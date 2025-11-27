@@ -30,6 +30,7 @@ var expenses = db?.Expenses ?? new List<ExpensesModel>();
         }
 
         return expenses.Select (e => new ExpensesResponseDto {
+            Id= e.Id,
             Title = e.Title, 
             Amount= e.Amount, 
             Category = e.Category, 
