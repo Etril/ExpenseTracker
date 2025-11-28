@@ -17,14 +17,6 @@
       "Type": "variable"
     },
     {
-      "Id": 3,
-      "Title": "Groceries - Week 2",
-      "Amount": 77.25,
-      "Category": "Groceries",
-      "Date": "2025-01-10T00:00:00",
-      "Type": "variable"
-    },
-    {
       "Id": 4,
       "Title": "Internet Bill",
       "Amount": 500,
@@ -39,14 +31,6 @@
       "Category": "Food",
       "Date": "2025-01-27T00:00:00",
       "Type": "Expense"
-    },
-    {
-      "Id": 6,
-      "Title": "Coffee with friends",
-      "Amount": 18.9,
-      "Category": "Entertainment",
-      "Date": "2025-01-08T00:00:00",
-      "Type": "variable"
     },
     {
       "Id": 7,

@@ -1,12 +1,21 @@
 import {useState, useEffect} from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import api from "../../api";
 
 
-function ExpenseList({list, openEdit}) {
+function ExpenseList({list, openEdit, refreshExpenses}) {
 
-  function deleteExpense() {
+  async function deleteExpense(id) {
 
+    try {
+      console.log(id);
+      await api.delete(`/expenses/${id}`);
+      refreshExpenses();
+    }
+    catch (err){
+      console.error(err.response?.data || err)
+    }
 
   }
 ;
@@ -29,8 +38,8 @@ return (
       </thead>
 
       <tbody>
-        {list.map((item, index) => (
-          <tr key={index}>
+        {list.map((item) => (
+          <tr key={item.id}>
             <td>{item.title}</td>
             <td>{item.amount}</td>
             <td>{item.category}</td>

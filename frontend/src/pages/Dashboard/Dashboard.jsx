@@ -8,7 +8,6 @@ import ModalAdd from "../../component/ModaleAdd/ModaleAdd";
 import ModaleEdit from "../../component/ModaleEdit/ModaleEdit";
 import Modal from 'react-modal';
 import api from "../../api";
-import data from "../../data/data.json";
 
 
 function Dashboard () { 
@@ -16,11 +15,11 @@ function Dashboard () {
 
 
 const [filters, setFilters] = useState({});
-const [list, setList] = useState(data.expenses);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [isEditOpen, setIsEditOpen] =useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
 const [expenses, setExpenses] = useState ([]);
+const [list, setList] = useState([]);
 const [widgets, setWidgets] = useState([]);
 const [trends, setTrends] = useState([]);
 const widgetsArray= Object.entries(widgets);
@@ -30,6 +29,8 @@ const getExpenses= async () => {
     try {
         const response= await api.get("/expenses");
         setExpenses(response.data);
+        setList(response.data);
+
     }
     catch (err) {
         console.error (err)
@@ -62,9 +63,9 @@ const getTrends= async() => {
 }
 
 useEffect(() => {
-    getExpenses()
+    getExpenses();
     getWidgets()
-    getTrends()
+    getTrends();
 
 }, []);
 
@@ -116,7 +117,7 @@ return (
                 </div>
                 <ExpenseRecap total= {trends.total} trend= {trends.trends} />
                 <ExpenseFilter onFilterClick={handleFilterClick} expenses={expenses}/>
-                <ExpenseList list={list} openEdit={openEdit} />
+                <ExpenseList list={list} openEdit={openEdit} refreshExpenses={getExpenses} />
                  
                     {widgetsArray.map(([key, value], index) => (
                         <div key={index}> 
