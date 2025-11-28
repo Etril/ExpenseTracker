@@ -8,5 +8,10 @@ public interface IExpensesService
     Task<TrendsDto> GetTrendsAsync();
 
     Task<ExpensesRequestResponseDto> PostExpenseAsync (ExpenseRequestDto dto);
+
+    Task<ExpensesRequestResponseDto> DeleteExpenseAsync(int id);
+
+    Task<ExpensesRequestResponseDto> PutExpenseAsync (int id, ExpenseRequestDto dto);
+    
     
 }

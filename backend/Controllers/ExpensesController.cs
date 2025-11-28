@@ -49,6 +49,24 @@ public class ExpensesController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpDelete("{id}")]
+
+    public async Task <IActionResult> DeleteExpense(int id)
+    {
+        var result= await _expensesService.DeleteExpenseAsync(id);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut("{id}")]
+
+    public async Task <IActionResult> PutExpense(int id, [FromBody] ExpenseRequestDto dto)
+    {
+        var result= await _expensesService.PutExpenseAsync(id, dto);
+        return Ok(result);
+    }
+
 
 
 

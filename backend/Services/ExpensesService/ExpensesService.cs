@@ -4,6 +4,7 @@ using System.Text.Json;
 using backend.DTOs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using System.Collections.Immutable;
 
 public class ExpensesService : IExpensesService 
 {
@@ -149,6 +150,125 @@ var expenses = db?.Expenses ?? new List<ExpensesModel>();
             };
         }
 
+    }
+
+    public async Task<ExpensesRequestResponseDto> DeleteExpenseAsync (int id)
+    {
+        try {
+            var json = await File.ReadAllTextAsync(_expensesFilePath);
+
+        var db = JsonSerializer.Deserialize<ExpensesDbModel>(
+            json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        );
+
+        var expenses= db?.Expenses ?? new List<ExpensesModel>();
+
+        var toDelete= expenses.FirstOrDefault(e => e.Id == id);
+
+        if (toDelete == null )
+
+            {
+                return new ExpensesRequestResponseDto
+                {
+                    Success  = false, 
+                    Message = "Expense not found"
+                };
+            }
+        
+        expenses.Remove(toDelete);
+        var updatedDb = new ExpensesDbModel
+        {
+            Expenses= expenses
+        };
+
+        var updatedJson = JsonSerializer.Serialize(updatedDb, new JsonSerializerOptions
+        {
+            WriteIndented= true
+        });
+
+        await File.WriteAllTextAsync(_expensesFilePath, updatedJson);
+
+        return new ExpensesRequestResponseDto
+        {
+            Success= true,
+            Message= "Expense deleted"
+        };
+
+        }
+        catch (Exception ex)
+        {
+            return new ExpensesRequestResponseDto
+            {
+                Success=false,
+                Message= $"Error:{ex.Message}"
+            };
+
+            
+        }
+
+    }
+
+    public async Task <ExpensesRequestResponseDto> PutExpenseAsync(int id, ExpenseRequestDto dto)
+    {
+        try
+        {
+            var json = await File.ReadAllTextAsync(_expensesFilePath);
+            
+            var db = JsonSerializer.Deserialize<ExpensesDbModel>(
+            json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        );
+
+        var expenses= db?.Expenses ?? new List<ExpensesModel>();
+
+        var toPut= expenses.FirstOrDefault(e => e.Id == id);
+
+        if (toPut == null )
+
+            {
+                return new ExpensesRequestResponseDto
+                {
+                    Success  = false, 
+                    Message = "Expense not found"
+                };
+            }
+        
+        toPut.Title= dto.Title!;
+        toPut.Amount= dto.Amount;
+        toPut.Category= dto.Category!;
+        toPut.Type=dto.Type!;
+        toPut.Date=dto.Date;
+
+        var updatedDb = new ExpensesDbModel
+        {
+            Expenses= expenses
+        };
+
+        var updatedJson = JsonSerializer.Serialize(updatedDb, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        await File.WriteAllTextAsync(_expensesFilePath, updatedJson);
+
+        return new ExpensesRequestResponseDto
+        {
+            Success= true, 
+            Message="Expense successfully updated"
+        };
+
+
+        }
+        catch (Exception ex)
+        {
+            return new ExpensesRequestResponseDto
+            {
+                Success=false,
+                Message= $"Error:{ex.Message}"
+            };
+            
+        }
     }
 
 
