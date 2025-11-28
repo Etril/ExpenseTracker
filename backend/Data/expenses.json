@@ -10,19 +10,11 @@
     },
     {
       "Id": 2,
-      "Title": "Groceries - Week 1",
-      "Amount": 82.5,
+      "Title": "Test1234",
+      "Amount": 145,
       "Category": "Test",
-      "Date": "2025-01-03T00:00:00",
+      "Date": "2025-01-02T23:00:00Z",
       "Type": "variable"
-    },
-    {
-      "Id": 4,
-      "Title": "Internet Bill",
-      "Amount": 500,
-      "Category": "Utilities",
-      "Date": "2025-01-05T00:00:00",
-      "Type": "fixed"
     },
     {
       "Id": 5,

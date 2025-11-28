@@ -132,7 +132,7 @@ return (
          </ Modal >
          <Modal isOpen={isEditOpen} onRequestClose={closeEdit} contentLabel="Edit Expenses"> 
             <button onClick={closeEdit}> X </button>
-            <ModaleEdit item={selectedItem} closeEdit={closeEdit} />
+            <ModaleEdit item={selectedItem} closeEdit={closeEdit} refreshExpenses={getExpenses} />
             
         </Modal>
                 </main>

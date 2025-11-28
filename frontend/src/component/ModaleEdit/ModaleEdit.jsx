@@ -1,14 +1,33 @@
 import {useState, useEffect} from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import api from "../../api";
 
 
 
 
-function ModaleEdit({closeEdit, item}) {
+function ModaleEdit({closeEdit, item, refreshExpenses}) {
     const [formData, setFormData] = useState(null);
 
-    console.log(item)
+  const handleSubmit= async (e) => {
+  e.preventDefault();
+  const id= item.id;
+  const payload= {
+    ...formData, 
+    amount: parseFloat(formData.amount),
+    date: new Date(formData.date)
+  }
+
+  try {
+    console.log(payload);
+    await api.put(`/expenses/${id}`, payload)
+    refreshExpenses();
+    closeEdit();
+  }
+  catch(err) {
+    console.error(err)
+  }
+}
 
   useEffect(() => {
     if (item) {
@@ -21,24 +40,21 @@ function ModaleEdit({closeEdit, item}) {
       });
     }
   }, [item]);
-
-console.log(item); 
-
-console.log(formData)
+  
 
 if (!formData) return null;
+
 
 
 return (
     <div> 
        <form onSubmit={(e) => {
-        e.preventDefault(); 
-        closeEdit();
+        handleSubmit(e); 
        }}>
         <input type="text"
         placeholder={formData.title}
         value={formData.title}
-        onChange={(e) => setFormData({...formData, type: e.target.value})}
+        onChange={(e) => setFormData({...formData, title: e.target.value})}
         />
 
         <input type="number"
